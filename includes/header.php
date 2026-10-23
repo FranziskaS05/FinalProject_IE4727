@@ -7,7 +7,7 @@
 
     <title><?php echo $pageTitle; ?></title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
 </head>
 
 <body>
