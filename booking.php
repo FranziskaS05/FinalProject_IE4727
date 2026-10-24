@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $movie = $_GET["movie"] ?? "";
 
@@ -6,7 +7,10 @@ if ($movie == "") {
     header("Location: shows.php");
     exit;
 }
-
+if (!isset($_SESSION["user_id"])) {
+       header("Location: user.php");
+       exit();
+   }
 $pageTitle = "Book Tickets";
 include "includes/header.php";
 

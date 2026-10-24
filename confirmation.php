@@ -1,19 +1,25 @@
 <?php
-
+session_start();
 $pageTitle = "Booking Confirmation";
 
+require_once "includes/db.php";
 $movie = $_POST["movie"] ?? "";
 $name = $_POST["name"] ?? "";
 $email = $_POST["email"] ?? "";
 $screening = $_POST["screening"] ?? "";
 $tickets = (int)$_POST["tickets"] ?? "";
 
-include "includes/header.php";
-require_once "includes/db.php";
+
+if (!isset($_SESSION["user_id"])) {
+    header("Location: user.php");
+    exit();
+}
+$userId = $_SESSION["user_id"];
+
 $stmt = $db->prepare(
-    "INSERT INTO bookings (movie, name, email, screening, tickets) VALUES (?, ?, ?, ?, ?)"
+    "INSERT INTO bookings (user_id, movie, name, email, screening, tickets) VALUES (?, ?, ?, ?, ?, ?)"
 );
-$stmt->bind_param("ssssi", $movie, $name, $email, $screening, $tickets);
+$stmt->bind_param("issssi", $userId, $movie, $name, $email, $screening, $tickets);
 
 if ($stmt->execute()) {
     echo "<p>Booking successful!</p>";
@@ -24,7 +30,7 @@ if ($stmt->execute()) {
 $stmt->close();
 
 ?>
-
+<?php include "includes/header.php";?>
 <main>
 
     <h1>Booking Confirmed</h1>
