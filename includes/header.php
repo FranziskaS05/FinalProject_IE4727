@@ -19,6 +19,7 @@
     <nav>
         <a href="index.php">Home</a>
         <a href="shows.php">Movies</a>
+        <a href="profile.php">Profile</a>
     </nav>
 
 </header>
