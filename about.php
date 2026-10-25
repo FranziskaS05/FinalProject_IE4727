@@ -3,19 +3,18 @@ session_start();
 $pageTitle = "About Us";
 
 $gallery = [
-    ["images/gallery/lobby.jpg",   "Our lobby"],
-    ["images/gallery/hall1.jpg",   "Screen 1"],
-    ["images/gallery/hall2.jpg",   "Screen 2"],
-    ["images/gallery/snacks.jpg",  "Snack bar"],
-    ["images/gallery/entrance.jpg","Main entrance"],
-    ["images/gallery/seats.jpg",   "Comfort seating"],
+    ["images/gallery/lobby.jpg", "Our lobby"],
+    ["images/gallery/hall1.jpg", "Screen 1"],
+    ["images/gallery/hall2.jpg", "Screen 2"],
+    ["images/gallery/snacks.jpg", "Snack bar"],
+    ["images/gallery/entrance.jpg", "Main entrance"],
+    ["images/gallery/seats.jpg", "Comfort seating"],
 ];
 
 include "includes/header.php";
 ?>
 
 <main>
-
 
     <div class="about-hero">
         <div class="about-hero-text">
@@ -32,58 +31,85 @@ include "includes/header.php";
     </p>
 
 
-    <!-- Statistics -->
-    <section class="stats">
+    <div class="row g-3 mb-5">
 
-        <div class="stat">
-            <span class="stat-number">2</span>
-            <span class="stat-label">Screens</span>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h2>2</h2>
+                    <p>Screens</p>
+                </div>
+            </div>
         </div>
 
-        <div class="stat">
-            <span class="stat-number">130</span>
-            <span class="stat-label">Seats</span>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h2>130</h2>
+                    <p>Seats</p>
+                </div>
+            </div>
         </div>
 
-        <div class="stat">
-            <span class="stat-number">2015</span>
-            <span class="stat-label">Since</span>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h2>2015</h2>
+                    <p>Since</p>
+                </div>
+            </div>
         </div>
 
-        <div class="stat">
-            <span class="stat-number">365</span>
-            <span class="stat-label">Days a year</span>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h2>365</h2>
+                    <p>Days a Year</p>
+                </div>
+            </div>
         </div>
 
-    </section>
+    </div>
 
 
     <h2>Why Visit Us</h2>
 
-    <section class="about-features">
+    <div class="row g-4 mb-5">
 
-        <div class="about-card">
-            <h3>Premium Sound &amp; Picture</h3>
-            <p>
-                Modern projection and surround sound for the full cinema experience.
-            </p>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3>Premium Sound &amp; Picture</h3>
+                    <p>
+                        Modern projection and surround sound for the full cinema experience.
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <div class="about-card">
-            <h3>Comfortable Seating</h3>
-            <p>
-                Spacious reclining seats with plenty of legroom in every screen.
-            </p>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3>Comfortable Seating</h3>
+                    <p>
+                        Spacious reclining seats with plenty of legroom in every screen.
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <div class="about-card">
-            <h3>Easy Booking</h3>
-            <p>
-                Reserve your tickets online in a few clicks and manage them in your profile.
-            </p>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3>Easy Booking</h3>
+                    <p>
+                        Reserve your tickets online in a few clicks and manage them in your profile.
+                    </p>
+                </div>
+            </div>
         </div>
 
-    </section>
+    </div>
 
 
     <h2>Gallery</h2>
@@ -99,7 +125,6 @@ include "includes/header.php";
                     <img
                         src="<?php echo htmlspecialchars($item[0]); ?>"
                         alt="<?php echo htmlspecialchars($item[1]); ?>"
-                        loading="lazy"
                     >
 
                 <?php } else { ?>
@@ -123,24 +148,28 @@ include "includes/header.php";
 
     <h2>Opening Hours</h2>
 
-    <table class="hours">
+    <div class="table-responsive">
 
-        <tr>
-            <th>Day</th>
-            <th>Hours</th>
-        </tr>
+        <table class="table table-dark table-hover">
 
-        <tr>
-            <td>Monday – Friday</td>
-            <td>12:00 – 23:00</td>
-        </tr>
+            <tr>
+                <th>Day</th>
+                <th>Hours</th>
+            </tr>
 
-        <tr>
-            <td>Saturday – Sunday</td>
-            <td>10:00 – 00:00</td>
-        </tr>
+            <tr>
+                <td>Monday – Friday</td>
+                <td>12:00 – 23:00</td>
+            </tr>
 
-    </table>
+            <tr>
+                <td>Saturday – Sunday</td>
+                <td>10:00 – 00:00</td>
+            </tr>
+
+        </table>
+
+    </div>
 
 
     <p>

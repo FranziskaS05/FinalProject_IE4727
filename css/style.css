@@ -588,3 +588,57 @@ main form.inline-form .btn-cancel:hover {
     color: #ffffff;
     box-shadow: 0 0 12px rgba(229, 9, 20, 0.4);
 }
+
+/* Bootstrap CinemaHub navbar */
+
+.cinema-navbar {
+    background: var(--bg-header) !important;
+    border-bottom: 3px solid var(--accent-gold);
+    padding: 20px 40px;
+}
+
+.cinema-navbar .navbar-brand {
+    color: var(--text-on-red) !important;
+    font-weight: 700;
+}
+
+.cinema-navbar .nav-link {
+    color: var(--text-on-red) !important;
+    margin-left: 20px;
+    font-weight: 500;
+}
+
+.cinema-navbar .nav-link:hover,
+.cinema-navbar .nav-link:focus {
+    color: var(--accent-gold-light) !important;
+}
+
+.cinema-navbar .navbar-toggler {
+    border-color: var(--accent-gold);
+}
+
+.card-img-top {
+    height: 350px;
+    object-fit: cover;
+}
+
+.card {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border-card);
+}
+
+.card p {
+    color: var(--text-muted);
+}
+
+.card h2,
+.card h3 {
+    color: var(--text-main);
+}
+
+@media (max-width: 700px) {
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+}

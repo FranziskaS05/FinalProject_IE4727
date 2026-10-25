@@ -7,13 +7,14 @@ if ($movie == "") {
     header("Location: shows.php");
     exit;
 }
+
 if (!isset($_SESSION["user_id"])) {
-       header("Location: user.php");
-       exit();
-   }
+    header("Location: user.php");
+    exit();
+}
+
 $pageTitle = "Book Tickets";
 include "includes/header.php";
-
 ?>
 
 <main>
@@ -30,55 +31,70 @@ include "includes/header.php";
             value="<?php echo htmlspecialchars($movie); ?>"
         >
 
+        <div class="mb-3">
+            <label class="form-label">Name:</label>
 
-        <label>Name:</label>
-        <input type="text" name="name" required>
+            <input
+                type="text"
+                name="name"
+                class="form-control"
+                required
+            >
+        </div>
 
-        <br><br>
+        <div class="mb-3">
+            <label class="form-label">Email:</label>
 
+            <input
+                type="email"
+                name="email"
+                class="form-control"
+                required
+            >
+        </div>
 
-        <label>Email:</label>
-        <input type="email" name="email" required>
+        <div class="mb-3">
+            <label class="form-label">Screening Time:</label>
 
-        <br><br>
+            <select
+                name="screening"
+                class="form-select"
+                required
+            >
 
+                <?php if ($movie == "Spiderman") { ?>
 
-        <label>Screening Time:</label>
+                    <option value="2:00 PM">2:00 PM</option>
+                    <option value="5:00 PM">5:00 PM</option>
+                    <option value="8:00 PM">8:00 PM</option>
 
-        <select name="screening" required>
+                <?php } elseif ($movie == "The Sandman") { ?>
 
-            <?php if ($movie == "Movie 1") { ?>
+                    <option value="1:00 PM">1:00 PM</option>
+                    <option value="4:00 PM">4:00 PM</option>
+                    <option value="7:00 PM">7:00 PM</option>
 
-                <option value="2:00 PM">2:00 PM</option>
-                <option value="5:00 PM">5:00 PM</option>
-                <option value="8:00 PM">8:00 PM</option>
+                <?php } ?>
 
-            <?php } else { ?>
+            </select>
+        </div>
 
-                <option value="1:00 PM">1:00 PM</option>
-                <option value="4:00 PM">4:00 PM</option>
-                <option value="7:00 PM">7:00 PM</option>
+        <div class="mb-3">
+            <label class="form-label">Number of Tickets:</label>
 
-            <?php } ?>
+            <input
+                type="number"
+                name="tickets"
+                min="1"
+                class="form-control"
+                required
+            >
+        </div>
 
-        </select>
-
-        <br><br>
-
-
-        <label>Number of Tickets:</label>
-
-        <input
-            type="number"
-            name="tickets"
-            min="1"
-            required
+        <button
+            type="submit"
+            class="btn btn-danger"
         >
-
-        <br><br>
-
-
-        <button type="submit">
             Confirm Booking
         </button>
 
