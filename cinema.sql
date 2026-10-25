@@ -10,7 +10,7 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL
 );
 
--- Booking form
+
 CREATE TABLE bookings (
     id         INT AUTO_INCREMENT PRIMARY KEY,
     user_id    INT NOT NULL,
@@ -18,5 +18,6 @@ CREATE TABLE bookings (
     name       VARCHAR(100) NOT NULL,
     email      VARCHAR(150) NOT NULL,
     screening  VARCHAR(20)  NOT NULL,
-    tickets    INT NOT NULL
+    tickets    INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
