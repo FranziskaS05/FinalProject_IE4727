@@ -14,7 +14,13 @@
 
 <header>
 
-    <h2>CinemaHub</h2>
+    <a href="index.php" class="logo-link">
+        <img
+            src="images/logo.png"
+            alt="CinemaHub Logo"
+            class="header-logo"
+        >
+    </a>
 
     <nav>
         <a href="index.php">Home</a>

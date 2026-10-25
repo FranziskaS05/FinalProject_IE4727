@@ -34,7 +34,7 @@ include "includes/header.php";
                 <p>1:00 PM | 4:00 PM | 7:00 PM</p>
             </div>
  
-            <a href="booking.php?movie=TheSandman">Book Now</a>
+            <a href="booking.php?movie=The%20Sandman">Book Now</a>
         </div>
  
     </div>

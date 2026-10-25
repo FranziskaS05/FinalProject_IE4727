@@ -1,19 +1,53 @@
 <?php
 session_start();
 
-$movie = $_GET["movie"] ?? "";
+if (!isset($_SESSION["user_id"])) {
+    header("Location: user.php");
+    exit();
+}
+
+$movie = $_GET["movie"] ?? $_POST["movie"] ?? "";
 
 if ($movie == "") {
     header("Location: shows.php");
-    exit;
+    exit();
 }
-if (!isset($_SESSION["user_id"])) {
-       header("Location: user.php");
-       exit();
-   }
+
+$error = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $name = trim($_POST["name"] ?? "");
+    $email = trim($_POST["email"] ?? "");
+    $screening = $_POST["screening"] ?? "";
+    $tickets = (int)($_POST["tickets"] ?? 0);
+
+    // Server-side validation
+    if ($name == "") {
+        $error = "Please enter your name.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Please enter a valid email.";
+    } elseif ($tickets < 1) {
+        $error = "Please select at least 1 ticket.";
+    } else {
+
+        $preference = [
+            "movie" => $movie,
+            "name" => $name,
+            "email" => $email,
+            "screening" => $screening,
+            "tickets" => $tickets
+        ];
+
+        $_SESSION["booking_preferences"][] = $preference;
+
+        header("Location: review.php");
+        exit();
+    }
+}
+
 $pageTitle = "Book Tickets";
 include "includes/header.php";
-
 ?>
 
 <main>
@@ -22,7 +56,13 @@ include "includes/header.php";
 
     <h2><?php echo htmlspecialchars($movie); ?></h2>
 
-    <form action="confirmation.php" method="post">
+    <?php if ($error != "") { ?>
+
+        <p><?php echo htmlspecialchars($error); ?></p>
+
+    <?php } ?>
+
+    <form action="booking.php" method="post">
 
         <input
             type="hidden"
@@ -30,30 +70,23 @@ include "includes/header.php";
             value="<?php echo htmlspecialchars($movie); ?>"
         >
 
-
         <label>Name:</label>
         <input type="text" name="name" required>
 
-        <br><br>
-
-
         <label>Email:</label>
         <input type="email" name="email" required>
-
-        <br><br>
-
 
         <label>Screening Time:</label>
 
         <select name="screening" required>
 
-            <?php if ($movie == "Movie 1") { ?>
+            <?php if ($movie == "Spiderman") { ?>
 
                 <option value="2:00 PM">2:00 PM</option>
                 <option value="5:00 PM">5:00 PM</option>
                 <option value="8:00 PM">8:00 PM</option>
 
-            <?php } else { ?>
+            <?php } elseif ($movie == "The Sandman") { ?>
 
                 <option value="1:00 PM">1:00 PM</option>
                 <option value="4:00 PM">4:00 PM</option>
@@ -62,9 +95,6 @@ include "includes/header.php";
             <?php } ?>
 
         </select>
-
-        <br><br>
-
 
         <label>Number of Tickets:</label>
 
@@ -75,11 +105,8 @@ include "includes/header.php";
             required
         >
 
-        <br><br>
-
-
         <button type="submit">
-            Confirm Booking
+            Add Booking Preference
         </button>
 
     </form>

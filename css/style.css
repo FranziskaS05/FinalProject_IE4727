@@ -49,9 +49,6 @@ header {
     background: var(--bg-header);
     color: var(--text-on-red);
     border-bottom: 3px solid var(--accent-gold);
-    position: sticky;
-    top: 0;
-    z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -587,4 +584,28 @@ main form.inline-form .btn-cancel:hover {
     background-color: var(--btn-bg);
     color: #ffffff;
     box-shadow: 0 0 12px rgba(229, 9, 20, 0.4);
+}
+
+.site-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.site-logo img {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    width: 130px;
+    height: auto;
+    display: block;
 }

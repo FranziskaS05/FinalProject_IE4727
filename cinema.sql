@@ -17,7 +17,7 @@ CREATE TABLE bookings (
     movie      VARCHAR(100) NOT NULL,
     name       VARCHAR(100) NOT NULL,
     email      VARCHAR(150) NOT NULL,
-    screening  VARCHAR(20)  NOT NULL,
+    screening  VARCHAR(20) NOT NULL,
     tickets    INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
