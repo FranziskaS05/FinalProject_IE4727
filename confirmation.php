@@ -62,9 +62,9 @@ $stmt->close();
 
     <br>
     <h3> Your can view your bookings in your profile page.</h3>
-    <a href="profile.php">Go to Profile</a>
+    <a href="profile.php" class="btn-primary">Go to Profile</a>
 
-    <a href="shows.php">Back to Movies</a>
+    <a href="shows.php" class="btn-secondary">Back to Movies</a>
 
 </main>
 

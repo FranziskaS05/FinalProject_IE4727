@@ -16,7 +16,7 @@ include "includes/header.php";
 
 <main>
 
-    <!-- Hero Banner -->
+
     <div class="about-hero">
         <div class="about-hero-text">
             <h1>About CinemaHub</h1>
@@ -58,7 +58,6 @@ include "includes/header.php";
     </section>
 
 
-    <!-- Why Visit Us -->
     <h2>Why Visit Us</h2>
 
     <section class="about-features">
@@ -87,7 +86,6 @@ include "includes/header.php";
     </section>
 
 
-    <!-- Gallery -->
     <h2>Gallery</h2>
 
     <section class="gallery">
@@ -123,7 +121,6 @@ include "includes/header.php";
     </section>
 
 
-    <!-- Opening Hours -->
     <h2>Opening Hours</h2>
 
     <table class="hours">
@@ -149,8 +146,8 @@ include "includes/header.php";
     <p>
         Questions?
         Write to
-        <a href="mailto:info@cinema.example">
-            info@cinema.example
+        <a href="mailto:info@cinemahub.com">
+            info@CinemaHub.com
         </a>
 
         or
