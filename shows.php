@@ -1,4 +1,8 @@
 <?php
+session_start();
+require_once "includes/db.php";
+
+$movies=$db->query("SELECT title, genre, duration, poster, times, price FROM movies");
 $pageTitle = "Movies";
 include "includes/header.php";
 ?>
@@ -8,35 +12,24 @@ include "includes/header.php";
     <h1>Now Showing</h1>
 
      <div class="movie-grid">
- 
+ <?php while ($movie = $movies->fetch_assoc()) { ?>
         <div class="movie">
             <div class="movie-poster">
-                <img src="images/spiderman.jpg" alt="Movie 1 poster">
+                  <img src="<?php echo htmlspecialchars($movie["poster"]); ?>" alt="<?php echo htmlspecialchars($movie["title"]); ?> poster">
             </div>
  
             <div>
-                <h2>Spiderman</h2>
-                <p>Action | 120 minutes</p>
-                <p>2:00 PM | 5:00 PM | 8:00 PM</p>
+                <h2><?php echo htmlspecialchars($movie["title"]); ?></h2>
+                <p><?php echo htmlspecialchars($movie["genre"]); ?> | <?php echo htmlspecialchars($movie["duration"]); ?> minutes</p>
+                <p><?php echo htmlspecialchars(str_replace(",", " | ",$movie["times"])); ?></p>
+               Price: $<?php echo number_format($movie["price"], 2); ?></p>
             </div>
  
-            <a href="booking.php?movie=Spiderman">Book Now</a>
+            <a href="booking.php?movie=<?php echo urlencode($movie["title"]); ?>">Book Now</a>
         </div>
  
-        <div class="movie">
-            <div class="movie-poster">
-                <img src="images/sand.jpg" alt="Movie 2 poster">
-            </div>
- 
-            <div>
-                <h2>The Sandman</h2>
-                <p>Science Fiction | 105 minutes</p>
-                <p>1:00 PM | 4:00 PM | 7:00 PM</p>
-            </div>
- 
-            <a href="booking.php?movie=The%20Sandman">Book Now</a>
-        </div>
- 
+      
+      <?php } ?>
     </div>
 
 </main>

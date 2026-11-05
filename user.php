@@ -13,7 +13,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($username == "" || $password == "") {
 
         $message = "Please enter a username and password.";
+        
 
+    }  elseif (isset($_POST["Register"]) && strlen($password) < 6) {
+
+        $message = "Password must be at least 6 characters.";
+    } elseif (isset($_POST["Register"]) && $password !== ($_POST["confirm"] ?? "")) {
+        $message = "Passwords do not match.";
     } elseif (isset($_POST["Register"])) {
 
         $stmt = $db->prepare(
@@ -77,7 +83,8 @@ $pageTitle = "Login";
 include "includes/header.php";
 ?>
 
-<main>
+
+    <main>
 
     <?php if ($message != "") { ?>
 
@@ -92,15 +99,11 @@ include "includes/header.php";
 
     <form action="user.php" method="post">
 
-        <label>Username:</label>
-        <input type="text" name="username" required>
+        <label for="login_username">Username:</label>
+        <input type="text" id="login_username" name="username" required>
 
-        <br><br>
-
-        <label>Password:</label>
-        <input type="password" name="password" required>
-
-        <br><br>
+        <label for="login_password">Password:</label>
+        <input type="password" id="login_password" name="password" required>
 
         <input type="submit" name="Login" value="Login">
 
@@ -109,17 +112,16 @@ include "includes/header.php";
 
     <h2>Register</h2>
 
-    <form action="user.php" method="post">
+    <form action="user.php" method="post" onsubmit="return checkRegister();">
 
-        <label>Username:</label>
-        <input type="text" name="username" required>
+        <label for="reg_username">Username:</label>
+        <input type="text" id="reg_username" name="username" required>
 
-        <br><br>
+        <label for="reg_password">Password:</label>
+        <input type="password" id="reg_password" name="password" required>
 
-        <label>Password:</label>
-        <input type="password" name="password" required>
-
-        <br><br>
+        <label for="reg_confirm">Confirm password:</label>
+        <input type="password" id="reg_confirm" name="confirm" required>
 
         <input type="submit" name="Register" value="Register">
 
@@ -129,4 +131,6 @@ include "includes/header.php";
 
 </main>
 
+
+<script src="js/includes/functions.js"></script>
 <?php include "includes/footer.php"; ?>

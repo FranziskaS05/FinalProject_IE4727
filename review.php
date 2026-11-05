@@ -16,6 +16,7 @@ $preferences = $_SESSION["booking_preferences"] ?? [];
 
 $pageTitle = "Review Bookings";
 include "includes/header.php";
+include "movies.php";
 ?>
 
 <main>
@@ -30,7 +31,7 @@ include "includes/header.php";
 
     <?php } else { ?>
 
-        <form action="confirmation.php" method="post">
+        <form action="confirmation.php" method="post" onsubmit="return checkReview();">
 
             <table>
 
@@ -39,6 +40,7 @@ include "includes/header.php";
                     <th>Movie</th>
                     <th>Screening</th>
                     <th>Tickets</th>
+                    <th>Price</th>
                 </tr>
 
                 <?php foreach ($preferences as $index => $booking) { ?>
@@ -65,6 +67,7 @@ include "includes/header.php";
                         <td>
                             <?php echo (int)$booking["tickets"]; ?>
                         </td>
+                        <td>$<?php echo number_format(total_price($db, $booking["movie"], $booking["tickets"]), 2); ?></td>
 
                     </tr>
 
@@ -97,5 +100,5 @@ include "includes/header.php";
     <?php } ?>
 
 </main>
-
+<script src="js/includes/functions.js"></script>
 <?php include "includes/footer.php"; ?>

@@ -1,116 +1,102 @@
+
 <?php
 session_start();
-
+ 
 if (!isset($_SESSION["user_id"])) {
     header("Location: user.php");
     exit();
 }
-
+ 
+require_once "includes/db.php";
+include "movies.php";
+ 
 $movie = $_GET["movie"] ?? $_POST["movie"] ?? "";
-
-if ($movie == "") {
+ 
+$m = get_movie($db, $movie);
+ 
+if (!$m) {
     header("Location: shows.php");
     exit();
 }
-
+ 
 $error = "";
-
+ 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
+ 
     $name = trim($_POST["name"] ?? "");
     $email = trim($_POST["email"] ?? "");
     $screening = $_POST["screening"] ?? "";
     $tickets = (int)($_POST["tickets"] ?? 0);
-
-    // Server-side validation
+ 
+    
     if ($name == "") {
         $error = "Please enter your name.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Please enter a valid email.";
-    } elseif ($tickets < 1) {
-        $error = "Please select at least 1 ticket.";
+    } elseif (!in_array($screening, $m["times"])) {
+        $error = "Please choose a valid screening time.";
+    } elseif ($tickets < 1 || $tickets > 10) {
+        $error = "Tickets must be between 1 and 10.";
     } else {
-
-        $preference = [
+ 
+        $_SESSION["booking_preferences"][] = [
             "movie" => $movie,
             "name" => $name,
             "email" => $email,
             "screening" => $screening,
             "tickets" => $tickets
         ];
-
-        $_SESSION["booking_preferences"][] = $preference;
-
+ 
         header("Location: review.php");
         exit();
     }
 }
-
+ 
 $pageTitle = "Book Tickets";
 include "includes/header.php";
 ?>
-
+ 
 <main>
-
+ 
     <h1>Book Tickets</h1>
-
-    <h2><?php echo htmlspecialchars($movie); ?></h2>
-
+ 
+    <img src="<?php echo htmlspecialchars($m["poster"]); ?>" alt="Poster" width="150">
+ 
+    <h2><?php echo htmlspecialchars($m["title"]); ?></h2>
+ 
+    <p>Price: $<?php echo number_format($m["price"], 2); ?> per ticket</p>
+ 
     <?php if ($error != "") { ?>
-
-        <p><?php echo htmlspecialchars($error); ?></p>
-
+        <p class="message"><?php echo htmlspecialchars($error); ?></p>
     <?php } ?>
-
-    <form action="booking.php" method="post">
-
-        <input
-            type="hidden"
-            name="movie"
-            value="<?php echo htmlspecialchars($movie); ?>"
-        >
-
-        <label>Name:</label>
-        <input type="text" name="name" required>
-
-        <label>Email:</label>
-        <input type="email" name="email" required>
-
-        <label>Screening Time:</label>
-
-        <select name="screening" required>
-
-            <?php if ($movie == "Spiderman") { ?>
-
-                <option value="2:00 PM">2:00 PM</option>
-                <option value="5:00 PM">5:00 PM</option>
-                <option value="8:00 PM">8:00 PM</option>
-
-            <?php } elseif ($movie == "The Sandman") { ?>
-
-                <option value="1:00 PM">1:00 PM</option>
-                <option value="4:00 PM">4:00 PM</option>
-                <option value="7:00 PM">7:00 PM</option>
-
+ 
+    <form action="booking.php" method="post" onsubmit="return checkBooking();">
+ 
+        <input type="hidden" name="movie" value="<?php echo htmlspecialchars($m["title"]); ?>">
+ 
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+ 
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+ 
+        <label for="screening">Screening Time:</label>
+        <select id="screening" name="screening" required>
+            <?php foreach ($m["times"] as $t) { ?>
+                <option value="<?php echo htmlspecialchars($t); ?>"><?php echo htmlspecialchars($t); ?></option>
             <?php } ?>
-
         </select>
-
-        <label>Number of Tickets:</label>
-
-        <input
-            type="number"
-            name="tickets"
-            min="1"
-            required
-        >
-
-        <button type="submit">
-            Add Booking Preference
-        </button>
-
+ 
+        <label for="tickets">Number of Tickets:</label>
+        <input type="number" id="tickets" name="tickets" min="1" max="10" required>
+ 
+        <button type="submit">Add Booking Preference</button>
+ 
     </form>
-
+ 
 </main>
-
+ 
+<script src="js/validate.js"></script>
+ 
 <?php include "includes/footer.php"; ?>
+ 

@@ -7,33 +7,28 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once "includes/db.php";
+include "movies.php";
 
-
-// Update booking
 if (isset($_POST['update_id'])) {
 
     $bookingId = (int)$_POST['update_id'];
     $tickets = (int)$_POST['tickets'];
 
-    $stmt = $db->prepare(
-        "UPDATE bookings SET tickets = ? WHERE id = ? AND user_id = ?"
-    );
+    if ($tickets < 1 || $tickets > 10) {
+        $message = "Please enter a valid number of tickets (1-10).";
+    }
 
-    $stmt->bind_param(
-        "iii",
-        $tickets,
-        $bookingId,
-        $_SESSION['user_id']
-    );
-
+    if ($tickets >= 1 && $tickets <= 10) {
+    $stmt = $db->prepare("UPDATE bookings SET tickets = ? WHERE id = ? AND user_id = ?");
+    $stmt->bind_param("iii", $tickets, $bookingId, $_SESSION['user_id']);
     $stmt->execute();
+}
+
 
     header("Location: profile.php");
     exit();
 }
 
-
-// Cancel booking
 if (isset($_POST['cancel_id'])) {
 
     $stmt = $db->prepare(
@@ -52,8 +47,6 @@ if (isset($_POST['cancel_id'])) {
     exit();
 }
 
-
-// Get bookings
 $stmt = $db->prepare(
     "SELECT id, movie, screening, tickets
      FROM bookings
@@ -93,6 +86,7 @@ include "includes/header.php";
                 <th>Movie</th>
                 <th>Screening</th>
                 <th>Tickets</th>
+                <th>Price</th>
                 <th>Update</th>
                 <th>Cancel</th>
             </tr>
@@ -116,10 +110,13 @@ include "includes/header.php";
                     <td>
                         <?php echo (int)$row["tickets"]; ?>
                     </td>
+                    <td>
+                        $<?php echo number_format(total_price($db, $row["movie"], $row["tickets"]), 2); ?>
+                    </td>
 
                     <td>
 
-                        <form method="post" class="inline-form">
+                        <form method="post" class="inline-form" onsubmit="return checkUpdate(this);">
 
                             <input
                                 type="hidden"
@@ -131,6 +128,7 @@ include "includes/header.php";
                                 type="number"
                                 name="tickets"
                                 min="1"
+                                max="10"
                                 value="<?php echo (int)$row["tickets"]; ?>"
                                 required
                             >
@@ -173,6 +171,6 @@ include "includes/header.php";
         <a href="logout.php">Logout</a>
     </p>
 
-</main>
+</main><script src="js/includes/functions.js"></script>
 
 <?php include "includes/footer.php"; ?>

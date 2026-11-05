@@ -7,6 +7,7 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 require_once "includes/db.php";
+include "movies.php";
 
 $preferences = $_SESSION["booking_preferences"] ?? [];
 $selected = $_POST["selected"] ?? [];
@@ -17,6 +18,7 @@ if (empty($selected)) {
 }
 
 $confirmedBookings = [];
+$grandTotal = 0;
 
 foreach ($preferences as $index => $booking) {
 
@@ -28,9 +30,8 @@ foreach ($preferences as $index => $booking) {
         $email = $booking["email"];
         $screening = $booking["screening"];
         $tickets = (int)$booking["tickets"];
-
-        // Save booking into database
-        $stmt = $db->prepare(
+        $total= total_price($db, $movie, $tickets);
+    $stmt = $db->prepare(
             "INSERT INTO bookings
             (user_id, movie, name, email, screening, tickets)
             VALUES (?, ?, ?, ?, ?, ?)"
@@ -49,7 +50,6 @@ foreach ($preferences as $index => $booking) {
         $stmt->execute();
         $stmt->close();
 
-        // Send email acknowledgement
         $subject = "CinemaHub Booking Confirmation";
 
         $message =
@@ -58,11 +58,13 @@ foreach ($preferences as $index => $booking) {
             "Movie: " . $movie . "\n" .
             "Screening: " . $screening . "\n" .
             "Tickets: " . $tickets . "\n\n" .
+            "Total Price: $" . number_format($total, 2) . "\n\n" .
             "Thank you for booking with CinemaHub.";
 
         mail($email, $subject, $message);
 
         $confirmedBookings[] = $booking;
+         $grandTotal += $total;
     }
 }
 
@@ -100,6 +102,10 @@ include "includes/header.php";
         <p>
             <strong>Tickets:</strong>
             <?php echo (int)$booking["tickets"]; ?>
+        </p>
+        <p>
+            <strong>Total Price:</strong>
+            $<?php echo number_format(total_price($db, $booking["movie"], $booking["tickets"]), 2); ?>
         </p>
 
         <hr>
