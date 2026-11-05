@@ -61,7 +61,8 @@ foreach ($preferences as $index => $booking) {
             "Total Price: $" . number_format($total, 2) . "\n\n" .
             "Thank you for booking with CinemaHub.";
 
-        mail($email, $subject, $message);
+        $headers = "From: CinemaHub <cinemahub@localhost>";
+        mail($email, $subject, $message, $headers);
 
         $confirmedBookings[] = $booking;
          $grandTotal += $total;

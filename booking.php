@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     if ($name == "") {
         $error = "Please enter your name.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    } elseif (!preg_match('/^[^@\s]+@[^@\s]+$/', $email)) {
         $error = "Please enter a valid email.";
     } elseif (!in_array($screening, $m["times"])) {
         $error = "Please choose a valid screening time.";
