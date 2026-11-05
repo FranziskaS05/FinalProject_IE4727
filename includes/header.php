@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -7,26 +7,42 @@
 
     <title><?php echo $pageTitle; ?></title>
 
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
     <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
 </head>
 
 <body>
 
-<header>
+<nav class="navbar navbar-expand-md navbar-dark cinema-navbar">
+    <div class="container">
 
-    <a href="index.php" class="logo-link">
-        <img
-            src="images/logo.png"
-            alt="CinemaHub Logo"
-            class="header-logo"
+        <a class="navbar-brand" href="index.php">
+            <img src="images/logo.png" alt="CinemaHub Logo" class="header-logo">
+        </a>
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
         >
-    </a>
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <nav>
-        <a href="index.php">Home</a>
-        <a href="shows.php">Movies</a>
-        <a href="profile.php">Profile</a>
-        <a href="about.php">About Us</a>
-    </nav>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="shows.php">Movies</a></li>
+                <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.php">About Us</a></li>
+            </ul>
+        </div>
 
-</header>
+    </div>
+</nav>

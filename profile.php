@@ -66,19 +66,19 @@ $pageTitle = "Profile";
 include "includes/header.php";
 ?>
 
-<main>
+<main class="container py-5">
 
-    <h1>User Profile</h1>
+    <h1 class="text-center mb-4">User Profile</h1>
 
-    <h2>
+    <h2 class="h4 text-center mb-4">
         Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!
     </h2>
 
     <?php if ($message != "") { ?>
-        <p class="message"><?php echo htmlspecialchars($message); ?></p>
+        <div class="alert alert-warning"><?php echo htmlspecialchars($message); ?></div>
     <?php } ?>
 
-    <h3>Your bookings:</h3>
+    <h3 class="h5 text-body-secondary">Your bookings:</h3>
 
     <?php if ($result->num_rows === 0) { ?>
 
@@ -86,97 +86,65 @@ include "includes/header.php";
 
     <?php } else { ?>
 
-        <table>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
 
-            <tr>
-                <th>Booking #</th>
-                <th>Movie</th>
-                <th>Screening</th>
-                <th>Tickets</th>
-                <th>Price</th>
-                <th>Update</th>
-                <th>Cancel</th>
-            </tr>
+                <thead>
+                    <tr>
+                        <th>Booking #</th>
+                        <th>Movie</th>
+                        <th>Screening</th>
+                        <th>Tickets</th>
+                        <th>Price</th>
+                        <th>Update</th>
+                        <th>Cancel</th>
+                    </tr>
+                </thead>
 
-            <?php while ($row = $result->fetch_assoc()) { ?>
+                <tbody>
+                    <?php while ($row = $result->fetch_assoc()) { ?>
 
-                <tr>
+                        <tr>
+                            <td class="text-gold fw-bold"><?php echo (int)$row["id"]; ?></td>
+                            <td><?php echo htmlspecialchars($row["movie"]); ?></td>
+                            <td><?php echo htmlspecialchars($row["screening"]); ?></td>
+                            <td><?php echo (int)$row["tickets"]; ?></td>
+                            <td>$<?php echo number_format(total_price($db, $row["movie"], $row["tickets"]), 2); ?></td>
 
-                    <td>
-                        <?php echo (int)$row["id"]; ?>
-                    </td>
+                            <td>
+                                <form method="post" class="d-flex gap-2" onsubmit="return checkUpdate(this);">
+                                    <input type="hidden" name="update_id" value="<?php echo (int)$row["id"]; ?>">
+                                    <input
+                                        type="number"
+                                        name="tickets"
+                                        min="1"
+                                        max="10"
+                                        value="<?php echo (int)$row["tickets"]; ?>"
+                                        class="form-control form-control-sm"
+                                        style="width: 70px;"
+                                        required
+                                    >
+                                    <button type="submit" class="btn btn-danger btn-sm">Update</button>
+                                </form>
+                            </td>
 
-                    <td>
-                        <?php echo htmlspecialchars($row["movie"]); ?>
-                    </td>
+                            <td>
+                                <form method="post">
+                                    <input type="hidden" name="cancel_id" value="<?php echo (int)$row["id"]; ?>">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Cancel</button>
+                                </form>
+                            </td>
+                        </tr>
 
-                    <td>
-                        <?php echo htmlspecialchars($row["screening"]); ?>
-                    </td>
+                    <?php } ?>
+                </tbody>
 
-                    <td>
-                        <?php echo (int)$row["tickets"]; ?>
-                    </td>
-                    <td>
-                        $<?php echo number_format(total_price($db, $row["movie"], $row["tickets"]), 2); ?>
-                    </td>
-
-                    <td>
-
-                        <form method="post" class="inline-form" onsubmit="return checkUpdate(this);">
-
-                            <input
-                                type="hidden"
-                                name="update_id"
-                                value="<?php echo (int)$row["id"]; ?>"
-                            >
-
-                            <input
-                                type="number"
-                                name="tickets"
-                                min="1"
-                                max="10"
-                                value="<?php echo (int)$row["tickets"]; ?>"
-                                required
-                            >
-
-                            <button type="submit">
-                                Update
-                            </button>
-
-                        </form>
-
-                    </td>
-
-                    <td>
-
-                        <form method="post" class="inline-form">
-
-                            <input
-                                type="hidden"
-                                name="cancel_id"
-                                value="<?php echo (int)$row["id"]; ?>"
-                            >
-
-                            <button type="submit" class="btn-cancel">
-                                Cancel
-                            </button>
-
-                        </form>
-
-                    </td>
-
-                </tr>
-
-            <?php } ?>
-
-        </table>
+            </table>
+        </div>
 
     <?php } ?>
 
-    <p>
-        <a href="logout.php">Logout</a>
-    </p>
+    <a href="logout.php" class="btn btn-outline-secondary mt-3">Logout</a>
 
 </main>
 <script src="includes/functions.js"></script>

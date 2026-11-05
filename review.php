@@ -19,82 +19,73 @@ include "includes/header.php";
 include "movies.php";
 ?>
 
-<main>
+<main class="container py-5">
 
-    <h1>Review Booking Preferences</h1>
+    <h1 class="text-center mb-5">Review Booking Preferences</h1>
 
     <?php if (empty($preferences)) { ?>
 
-        <p>No booking preferences added yet.</p>
-
-        <a href="shows.php">Browse Movies</a>
+        <div class="text-center">
+            <p>No booking preferences added yet.</p>
+            <a href="shows.php" class="btn btn-danger">Browse Movies</a>
+        </div>
 
     <?php } else { ?>
 
         <form action="confirmation.php" method="post" onsubmit="return checkReview();">
 
-            <table>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
 
-                <tr>
-                    <th>Select</th>
-                    <th>Movie</th>
-                    <th>Screening</th>
-                    <th>Tickets</th>
-                    <th>Price</th>
-                </tr>
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Movie</th>
+                            <th>Screening</th>
+                            <th>Tickets</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
 
-                <?php foreach ($preferences as $index => $booking) { ?>
+                    <tbody>
+                        <?php foreach ($preferences as $index => $booking) { ?>
 
-                    <tr>
+                            <tr>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        name="selected[<?php echo $index; ?>]"
+                                        value="1"
+                                        class="form-check-input"
+                                        checked
+                                    >
+                                </td>
+                                <td><?php echo htmlspecialchars($booking["movie"]); ?></td>
+                                <td><?php echo htmlspecialchars($booking["screening"]); ?></td>
+                                <td><?php echo (int)$booking["tickets"]; ?></td>
+                                <td>$<?php echo number_format(total_price($db, $booking["movie"], $booking["tickets"]), 2); ?></td>
+                            </tr>
 
-                        <td>
-                            <input
-                                type="checkbox"
-                                name="selected[<?php echo $index; ?>]"
-                                value="1"
-                                checked
-                            >
-                        </td>
+                        <?php } ?>
+                    </tbody>
 
-                        <td>
-                            <?php echo htmlspecialchars($booking["movie"]); ?>
-                        </td>
+                </table>
+            </div>
 
-                        <td>
-                            <?php echo htmlspecialchars($booking["screening"]); ?>
-                        </td>
-
-                        <td>
-                            <?php echo (int)$booking["tickets"]; ?>
-                        </td>
-                        <td>$<?php echo number_format(total_price($db, $booking["movie"], $booking["tickets"]), 2); ?></td>
-
-                    </tr>
-
-                <?php } ?>
-
-            </table>
-
-            <button type="submit">
+            <button type="submit" class="btn btn-danger">
                 Confirm Selected Booking
             </button>
 
-        </form>
-
-
-        <p>
-            <a href="shows.php">
+            <a href="shows.php" class="btn btn-outline-light ms-2">
                 Add Another Booking Preference
             </a>
-        </p>
 
+        </form>
 
-        <form method="post">
-
-            <button type="submit" name="clear" value="1">
+        <form method="post" class="mt-3">
+            <button type="submit" name="clear" value="1" class="btn btn-outline-secondary btn-sm">
                 Clear Preferences
             </button>
-
         </form>
 
     <?php } ?>

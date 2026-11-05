@@ -83,68 +83,87 @@ $pageTitle = "Booking Confirmation";
 include "includes/header.php";
 ?>
 
-<main>
+<main class="container py-5">
 
-    <h1><?php echo empty($confirmedBookings) ? "Booking Failed" : "Booking Confirmed"; ?></h1>
+    <h1 class="text-center mb-5"><?php echo empty($confirmedBookings) ? "Booking Failed" : "Booking Confirmed"; ?></h1>
 
     <?php if ($failedBookings > 0) { ?>
-        <p class="message">
+        <div class="alert alert-warning">
             <?php echo $failedBookings; ?> booking(s) could not be saved. Please try again.
-        </p>
+        </div>
     <?php } ?>
 
-    <?php foreach ($confirmedBookings as $booking) { ?>
+    <div class="row g-4 justify-content-center">
 
-        <h2>
-            <?php echo htmlspecialchars($booking["movie"]); ?>
-        </h2>
+        <?php foreach ($confirmedBookings as $booking) { ?>
 
-        <p>
-            <strong>Name:</strong>
-            <?php echo htmlspecialchars($booking["name"]); ?>
-        </p>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
 
-        <p>
-            <strong>Email:</strong>
-            <?php echo htmlspecialchars($booking["email"]); ?>
-        </p>
+                        <h2 class="card-title h4 text-gold">
+                            <?php echo htmlspecialchars($booking["movie"]); ?>
+                        </h2>
 
-        <p>
-            <strong>Screening:</strong>
-            <?php echo htmlspecialchars($booking["screening"]); ?>
-        </p>
+                        <p class="mb-1">
+                            <strong>Name:</strong>
+                            <?php echo htmlspecialchars($booking["name"]); ?>
+                        </p>
 
-        <p>
-            <strong>Tickets:</strong>
-            <?php echo (int)$booking["tickets"]; ?>
-        </p>
-        <p>
-            <strong>Total Price:</strong>
-            $<?php echo number_format(total_price($db, $booking["movie"], $booking["tickets"]), 2); ?>
-        </p>
+                        <p class="mb-1">
+                            <strong>Email:</strong>
+                            <?php echo htmlspecialchars($booking["email"]); ?>
+                        </p>
 
-        <hr>
+                        <p class="mb-1">
+                            <strong>Screening:</strong>
+                            <?php echo htmlspecialchars($booking["screening"]); ?>
+                        </p>
 
-    <?php } ?>
+                        <p class="mb-1">
+                            <strong>Tickets:</strong>
+                            <?php echo (int)$booking["tickets"]; ?>
+                        </p>
 
-    <?php if (!empty($confirmedBookings)) { ?>
-        <p>
-            <strong>Grand Total:</strong>
-            $<?php echo number_format($grandTotal, 2); ?>
-        </p>
+                        <p class="mb-0">
+                            <strong>Total Price:</strong>
+                            $<?php echo number_format(total_price($db, $booking["movie"], $booking["tickets"]), 2); ?>
+                        </p>
 
-        <p>
+                    </div>
+                </div>
+            </div>
+
+        <?php } ?>
+
+    </div>
+
+    <div class="text-center mt-4">
+
+        <?php if (!empty($confirmedBookings)) { ?>
+            <p class="fs-5">
+                <strong>Grand Total:</strong>
+                $<?php echo number_format($grandTotal, 2); ?>
+            </p>
+
             <?php if ($mailFailed) { ?>
-                Your booking is saved, but the acknowledgement email could not be sent.
+                <div class="alert alert-warning d-inline-block">
+                    Your booking is saved, but the acknowledgement email could not be sent.
+                </div>
             <?php } else { ?>
-                A booking acknowledgement has been sent to your email.
+                <div class="alert alert-success d-inline-block">
+                    A booking acknowledgement has been sent to your email.
+                </div>
             <?php } ?>
-        </p>
-    <?php } ?>
+        <?php } ?>
 
-    <a href="profile.php" class="btn-primary">
-        Go to Profile
-    </a>
+        <div>
+            <a href="profile.php" class="btn btn-danger mt-2">
+                Go to Profile
+            </a>
+        </div>
+
+    </div>
 
 </main>
 

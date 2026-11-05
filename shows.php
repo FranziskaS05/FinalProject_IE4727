@@ -7,29 +7,43 @@ $pageTitle = "Movies";
 include "includes/header.php";
 ?>
 
-<main>
+<main class="container py-5">
 
-    <h1>Now Showing</h1>
+    <h1 class="text-center mb-5">Now Showing</h1>
 
-     <div class="movie-grid">
- <?php while ($movie = $movies->fetch_assoc()) { ?>
-        <div class="movie">
-            <div class="movie-poster">
-                  <img src="<?php echo htmlspecialchars($movie["poster"]); ?>" alt="<?php echo htmlspecialchars($movie["title"]); ?> poster">
+    <div class="row g-4">
+
+        <?php while ($movie = $movies->fetch_assoc()) { ?>
+
+            <div class="col-lg-6">
+                <div class="card h-100 shadow overflow-hidden">
+                    <div class="row g-0 h-100">
+
+                        <div class="col-sm-5">
+                            <img
+                                src="<?php echo htmlspecialchars($movie["poster"]); ?>"
+                                alt="<?php echo htmlspecialchars($movie["title"]); ?> poster"
+                                class="movie-poster"
+                            >
+                        </div>
+
+                        <div class="col-sm-7">
+                            <div class="card-body d-flex flex-column h-100">
+                                <h2 class="card-title h4"><?php echo htmlspecialchars($movie["title"]); ?></h2>
+                                <p class="text-body-secondary mb-1"><?php echo htmlspecialchars($movie["genre"]); ?> | <?php echo htmlspecialchars($movie["duration"]); ?> minutes</p>
+                                <p class="text-body-secondary mb-1"><?php echo htmlspecialchars(str_replace(",", " | ",$movie["times"])); ?></p>
+                                <p class="text-body-secondary">Price: $<?php echo number_format($movie["price"], 2); ?></p>
+
+                                <a href="booking.php?movie=<?php echo urlencode($movie["title"]); ?>" class="btn btn-danger mt-auto align-self-start">Book Now</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
- 
-            <div>
-                <h2><?php echo htmlspecialchars($movie["title"]); ?></h2>
-                <p><?php echo htmlspecialchars($movie["genre"]); ?> | <?php echo htmlspecialchars($movie["duration"]); ?> minutes</p>
-                <p><?php echo htmlspecialchars(str_replace(",", " | ",$movie["times"])); ?></p>
-                <p>Price: $<?php echo number_format($movie["price"], 2); ?></p>
-            </div>
- 
-            <a href="booking.php?movie=<?php echo urlencode($movie["title"]); ?>">Book Now</a>
-        </div>
- 
-      
-      <?php } ?>
+
+        <?php } ?>
+
     </div>
 
 </main>

@@ -85,50 +85,73 @@ include "includes/header.php";
 ?>
 
 
-    <main>
+<main class="container py-5">
 
     <?php if ($message != "") { ?>
-
-        <p>
+        <div class="alert alert-info text-center">
             <?php echo htmlspecialchars($message); ?>
-        </p>
-
+        </div>
     <?php } ?>
 
+    <div class="row g-4 justify-content-center">
 
-    <h2>Login</h2>
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow p-4 h-100">
 
-    <form action="user.php" method="post">
+                <h2 class="h4 mb-3">Login</h2>
 
-        <label for="login_username">Username:</label>
-        <input type="text" id="login_username" name="username" required>
+                <form action="user.php" method="post">
 
-        <label for="login_password">Password:</label>
-        <input type="password" id="login_password" name="password" required>
+                    <div class="mb-3">
+                        <label for="login_username" class="form-label">Username:</label>
+                        <input type="text" id="login_username" name="username" class="form-control" required>
+                    </div>
 
-        <input type="submit" name="Login" value="Login">
+                    <div class="mb-3">
+                        <label for="login_password" class="form-label">Password:</label>
+                        <input type="password" id="login_password" name="password" class="form-control" required>
+                    </div>
 
-    </form>
+                    <input type="submit" name="Login" value="Login" class="btn btn-danger w-100">
 
+                </form>
 
-    <h2>Register</h2>
+            </div>
+        </div>
 
-    <form action="user.php" method="post" onsubmit="return checkRegister();">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow p-4 h-100">
 
-        <label for="reg_username">Username:</label>
-        <input type="text" id="reg_username" name="username" required>
+                <h2 class="h4 mb-3">Register</h2>
 
-        <label for="reg_password">Password:</label>
-        <input type="password" id="reg_password" name="password" required>
+                <form action="user.php" method="post" onsubmit="return checkRegister();">
 
-        <label for="reg_confirm">Confirm password:</label>
-        <input type="password" id="reg_confirm" name="confirm" required>
+                    <div class="mb-3">
+                        <label for="reg_username" class="form-label">Username:</label>
+                        <input type="text" id="reg_username" name="username" class="form-control" required>
+                    </div>
 
-        <input type="submit" name="Register" value="Register">
+                    <div class="mb-3">
+                        <label for="reg_password" class="form-label">Password:</label>
+                        <input type="password" id="reg_password" name="password" class="form-control" required>
+                    </div>
 
-        <input type="reset" value="Reset">
+                    <div class="mb-3">
+                        <label for="reg_confirm" class="form-label">Confirm password:</label>
+                        <input type="password" id="reg_confirm" name="confirm" class="form-control" required>
+                    </div>
 
-    </form>
+                    <div class="d-flex gap-2">
+                        <input type="submit" name="Register" value="Register" class="btn btn-danger flex-fill">
+                        <input type="reset" value="Reset" class="btn btn-outline-secondary">
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
 
 </main>
 
