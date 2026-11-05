@@ -1,4 +1,3 @@
-
 <?php
 session_start();
  
@@ -96,7 +95,7 @@ include "includes/header.php";
  
 </main>
  
-<script src="js/validate.js"></script>
+<script src="includes/functions.js"></script>
  
 <?php include "includes/footer.php"; ?>
  

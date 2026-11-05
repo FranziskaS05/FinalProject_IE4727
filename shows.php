@@ -22,7 +22,7 @@ include "includes/header.php";
                 <h2><?php echo htmlspecialchars($movie["title"]); ?></h2>
                 <p><?php echo htmlspecialchars($movie["genre"]); ?> | <?php echo htmlspecialchars($movie["duration"]); ?> minutes</p>
                 <p><?php echo htmlspecialchars(str_replace(",", " | ",$movie["times"])); ?></p>
-               Price: $<?php echo number_format($movie["price"], 2); ?></p>
+                <p>Price: $<?php echo number_format($movie["price"], 2); ?></p>
             </div>
  
             <a href="booking.php?movie=<?php echo urlencode($movie["title"]); ?>">Book Now</a>

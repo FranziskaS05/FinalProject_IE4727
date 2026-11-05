@@ -1,31 +1,3 @@
-function validateForm(){
-    var name= document.getElementById("name");
-    var email= document.getElementById("email");
-    var date= document.getElementById("date");
-    
-
-    let isValid= true;
-    if(name.value===""|| ! /^[A-Za-z]+\s+[A-Za-z]+$/.test(name.value)){
-        alert("Please fill out the name field in correct format of first name and last name.");
-        isValid= false;
-    }
-    if (email.value===""||!/^[\w.-]+@([\w-]+\.)+[A-Za-z]{2,3}$/.test(email.value)){
-        alert("Please fill out the email field in correct format.");
-        isValid= false;
-    }
-    
-    if (date.value===""||new Date(date.value) < new Date()){
-        alert("Please fill out the date field with a date in the future.");
-        isValid= false;
-    }
-    if(isValid){
-        alert("Sumitted successfully!");
-        return true;
-    }else{
-        return false;
-    }
-}
-
 function checkBooking() {
     var name = document.getElementById("name").value.trim();
     var tickets = parseInt(document.getElementById("tickets").value);

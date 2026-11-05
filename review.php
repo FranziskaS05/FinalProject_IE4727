@@ -100,5 +100,5 @@ include "movies.php";
     <?php } ?>
 
 </main>
-<script src="js/includes/functions.js"></script>
+<script src="includes/functions.js"></script>
 <?php include "includes/footer.php"; ?>
