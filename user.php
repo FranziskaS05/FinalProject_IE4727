@@ -64,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($stmt->fetch() && password_verify($password, $hash)) {
 
+            session_regenerate_id(true);
             $_SESSION["user_id"] = $userId;
             $_SESSION["username"] = $username;
 
@@ -132,5 +133,5 @@ include "includes/header.php";
 </main>
 
 
-<script src="js/includes/functions.js"></script>
+<script src="includes/functions.js"></script>
 <?php include "includes/footer.php"; ?>

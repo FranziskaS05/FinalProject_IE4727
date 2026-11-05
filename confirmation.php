@@ -12,13 +12,15 @@ include "movies.php";
 $preferences = $_SESSION["booking_preferences"] ?? [];
 $selected = $_POST["selected"] ?? [];
 
-if (empty($selected)) {
+if (empty($selected) || empty($preferences)) {
     header("Location: review.php");
     exit();
 }
 
 $confirmedBookings = [];
 $grandTotal = 0;
+$failedBookings = 0;
+$mailFailed = false;
 
 foreach ($preferences as $index => $booking) {
 
@@ -47,8 +49,13 @@ foreach ($preferences as $index => $booking) {
             $tickets
         );
 
-        $stmt->execute();
+        $saved = $stmt->execute();
         $stmt->close();
+
+        if (!$saved) {
+            $failedBookings++;
+            continue;
+        }
 
         $subject = "CinemaHub Booking Confirmation";
 
@@ -61,10 +68,12 @@ foreach ($preferences as $index => $booking) {
             "Total Price: $" . number_format($total, 2) . "\n\n" .
             "Thank you for booking with CinemaHub.";
 
-        mail($email, $subject, $message);
+        if (!mail($email, $subject, $message)) {
+            $mailFailed = true;
+        }
 
         $confirmedBookings[] = $booking;
-         $grandTotal += $total;
+        $grandTotal += $total;
     }
 }
 
@@ -76,7 +85,13 @@ include "includes/header.php";
 
 <main>
 
-    <h1>Booking Confirmed</h1>
+    <h1><?php echo empty($confirmedBookings) ? "Booking Failed" : "Booking Confirmed"; ?></h1>
+
+    <?php if ($failedBookings > 0) { ?>
+        <p class="message">
+            <?php echo $failedBookings; ?> booking(s) could not be saved. Please try again.
+        </p>
+    <?php } ?>
 
     <?php foreach ($confirmedBookings as $booking) { ?>
 
@@ -112,9 +127,20 @@ include "includes/header.php";
 
     <?php } ?>
 
-    <p>
-        A booking acknowledgement has been sent to your email.
-    </p>
+    <?php if (!empty($confirmedBookings)) { ?>
+        <p>
+            <strong>Grand Total:</strong>
+            $<?php echo number_format($grandTotal, 2); ?>
+        </p>
+
+        <p>
+            <?php if ($mailFailed) { ?>
+                Your booking is saved, but the acknowledgement email could not be sent.
+            <?php } else { ?>
+                A booking acknowledgement has been sent to your email.
+            <?php } ?>
+        </p>
+    <?php } ?>
 
     <a href="profile.php" class="btn-primary">
         Go to Profile

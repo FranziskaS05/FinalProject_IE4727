@@ -15,7 +15,7 @@ if (isset($_POST['update_id'])) {
     $tickets = (int)$_POST['tickets'];
 
     if ($tickets < 1 || $tickets > 10) {
-        $message = "Please enter a valid number of tickets (1-10).";
+        $_SESSION['profile_message'] = "Please enter a valid number of tickets (1-10).";
     }
 
     if ($tickets >= 1 && $tickets <= 10) {
@@ -59,6 +59,9 @@ $stmt->execute();
 
 $result = $stmt->get_result();
 
+$message = $_SESSION['profile_message'] ?? "";
+unset($_SESSION['profile_message']);
+
 $pageTitle = "Profile";
 include "includes/header.php";
 ?>
@@ -70,6 +73,10 @@ include "includes/header.php";
     <h2>
         Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!
     </h2>
+
+    <?php if ($message != "") { ?>
+        <p class="message"><?php echo htmlspecialchars($message); ?></p>
+    <?php } ?>
 
     <h3>Your bookings:</h3>
 
@@ -171,6 +178,7 @@ include "includes/header.php";
         <a href="logout.php">Logout</a>
     </p>
 
-</main><script src="js/includes/functions.js"></script>
+</main>
+<script src="includes/functions.js"></script>
 
 <?php include "includes/footer.php"; ?>

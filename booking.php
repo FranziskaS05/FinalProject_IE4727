@@ -1,4 +1,3 @@
-
 <?php
 session_start();
  
@@ -31,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     if ($name == "") {
         $error = "Please enter your name.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) && !preg_match('/^[A-Za-z0-9._-]+@localhost$/', $email)) {
         $error = "Please enter a valid email.";
     } elseif (!in_array($screening, $m["times"])) {
         $error = "Please choose a valid screening time.";
@@ -96,7 +95,7 @@ include "includes/header.php";
  
 </main>
  
-<script src="js/validate.js"></script>
+<script src="includes/functions.js"></script>
  
 <?php include "includes/footer.php"; ?>
  
